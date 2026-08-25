@@ -6,14 +6,16 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 concurrency:
   group: pages
   cancel-in-progress: true
 
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -35,20 +37,33 @@ jobs:
         run: |
           mkdir -p _site
           cp -a build/web/. _site/
-          # Explicitly publish demo videos (do not rely on flutter web copy alone)
+          # Always publish demo videos from web/content
           rm -rf _site/content
           mkdir -p _site/content
           cp -a web/content/. _site/content/
           rm -rf _site/slides
           mkdir -p _site/slides
           cp -a assets/slides/. _site/slides/
-          echo "Site contents:"
+          touch _site/.nojekyll
+          echo "Staged:"
           du -sh _site _site/content _site/slides
-          ls -la _site/content | head -30
+          ls -lh _site/content
 
-      - name: Deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_site
-          force_orphan: true
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
