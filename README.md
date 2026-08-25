@@ -1,17 +1,26 @@
-# personal_site
+# Personal Website
 
-A new Flutter project.
+Minimal academic Flutter web site (demos + Nova Robot slide viewer).
 
-## Getting Started
+## Local run
 
-This project is a starting point for a Flutter application.
+```bash
+flutter run -d web-server --web-hostname=127.0.0.1 --web-port=8080
+```
 
-A few resources to get you started if this is your first Flutter project:
+Keep the local `content/` folder for demo videos (it is **not** in git). Symlink for local serving:
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+```bash
+ln -sfn ../content web/content
+ln -sfn ../assets/slides web/slides
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## GitHub Pages
+
+On every push to `main`, GitHub Actions builds Flutter web and deploys Pages.
+
+Site URL (after Pages is enabled):
+
+https://parsashu.github.io/Personal-Website/
+
+Enable under **Settings → Pages → Source: GitHub Actions**.
