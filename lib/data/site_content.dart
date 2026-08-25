@@ -21,6 +21,11 @@ class SiteContent {
   /// Demo videos published under `web/content/` (root `content/` stays local-only).
   static const demos = <DemoVideo>[
     DemoVideo(
+      title: '3D LiDAR SLAM',
+      subtitle: 'Lidar-based 3D mapping',
+      src: 'content/mapping.webm',
+    ),
+    DemoVideo(
       title: 'LiDAR SLAM',
       subtitle: 'Fast lidar-based mapping',
       src: 'content/Lidar slam fast.mp4',
@@ -28,12 +33,7 @@ class SiteContent {
     DemoVideo(
       title: 'Mapping',
       subtitle: 'Online map construction',
-      src: 'content/mapping.webm',
-    ),
-    DemoVideo(
-      title: 'Map & Navigation',
-      subtitle: 'Mapping with navigation speed',
-      src: 'content/mapp show + nav speed.mp4',
+      src: 'content/mapping1.webm',
     ),
     DemoVideo(
       title: 'Depth Anything',
@@ -56,9 +56,9 @@ class SiteContent {
       src: 'content/AEB1.webm',
     ),
     DemoVideo(
-      title: 'LeRobot',
-      subtitle: 'Robot learning experiments',
-      src: 'content/lerobot.mp4',
+      title: 'Robot Arm',
+      subtitle: 'Manipulator demo',
+      src: 'content/arm.webm',
     ),
     DemoVideo(
       title: 'Interface',

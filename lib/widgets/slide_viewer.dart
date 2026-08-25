@@ -20,6 +20,9 @@ class _SlideViewerState extends State<SlideViewer> {
   void initState() {
     super.initState();
     _pageController = PageController();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _precacheAround(0);
+    });
   }
 
   @override
@@ -28,12 +31,23 @@ class _SlideViewerState extends State<SlideViewer> {
     super.dispose();
   }
 
+  void _precacheAround(int index) {
+    if (!mounted) return;
+    for (final i in {index, index + 1, index + 2, index - 1}) {
+      if (i < 0 || i >= SiteContent.slideCount) continue;
+      precacheImage(
+        NetworkImage(SiteContent.slidePath(i)),
+        context,
+      );
+    }
+  }
+
   void _go(int delta) {
     final next = (_index + delta).clamp(0, SiteContent.slideCount - 1);
     if (next == _index) return;
     _pageController.animateToPage(
       next,
-      duration: const Duration(milliseconds: 320),
+      duration: const Duration(milliseconds: 180),
       curve: Curves.easeOutCubic,
     );
   }
@@ -80,20 +94,28 @@ class _SlideViewerState extends State<SlideViewer> {
                   PageView.builder(
                     controller: _pageController,
                     itemCount: SiteContent.slideCount,
-                    onPageChanged: (i) => setState(() => _index = i),
+                    allowImplicitScrolling: true,
+                    onPageChanged: (i) {
+                      setState(() => _index = i);
+                      _precacheAround(i);
+                    },
                     itemBuilder: (context, i) {
                       return Image.network(
                         SiteContent.slidePath(i),
                         fit: BoxFit.contain,
                         filterQuality: FilterQuality.low,
-                        cacheWidth: 1280,
+                        cacheWidth: 960,
+                        gaplessPlayback: true,
                         loadingBuilder: (context, child, progress) {
                           if (progress == null) return child;
-                          return const Center(
-                            child: SizedBox(
-                              width: 22,
-                              height: 22,
-                              child: CircularProgressIndicator(strokeWidth: 2),
+                          return const ColoredBox(
+                            color: Colors.white,
+                            child: Center(
+                              child: SizedBox(
+                                width: 18,
+                                height: 18,
+                                child: CircularProgressIndicator(strokeWidth: 2),
+                              ),
                             ),
                           );
                         },
