@@ -396,9 +396,9 @@ class _HeroState extends State<_Hero> with SingleTickerProviderStateMixin {
             : Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Expanded(child: textBlock),
-                  const SizedBox(width: 48),
                   portrait,
+                  const SizedBox(width: 48),
+                  Expanded(child: textBlock),
                 ],
               ),
       ),
