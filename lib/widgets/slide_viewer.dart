@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import '../data/site_content.dart';
 import '../theme.dart';
 
-/// Page-by-page viewer for the Nova Robot deck (exported slide images).
+/// Page-by-page viewer for the talk deck (exported slide images).
 class SlideViewer extends StatefulWidget {
   const SlideViewer({super.key});
 
@@ -85,7 +85,8 @@ class _SlideViewerState extends State<SlideViewer> {
                       return Image.network(
                         SiteContent.slidePath(i),
                         fit: BoxFit.contain,
-                        filterQuality: FilterQuality.medium,
+                        filterQuality: FilterQuality.low,
+                        cacheWidth: 1280,
                         loadingBuilder: (context, child, progress) {
                           if (progress == null) return child;
                           return const Center(
@@ -136,7 +137,7 @@ class _SlideViewerState extends State<SlideViewer> {
           Row(
             children: [
               Text(
-                'Nova Robot',
+                'Presentation',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const Spacer(),

@@ -21,19 +21,9 @@ class SiteContent {
   /// Demo videos published under `web/content/` (root `content/` stays local-only).
   static const demos = <DemoVideo>[
     DemoVideo(
-      title: 'Dynamic V-SLAM',
-      subtitle: 'Visual SLAM in changing scenes',
-      src: 'content/Dynamic Vslam.mp4',
-    ),
-    DemoVideo(
       title: 'LiDAR SLAM',
       subtitle: 'Fast lidar-based mapping',
       src: 'content/Lidar slam fast.mp4',
-    ),
-    DemoVideo(
-      title: 'Localization',
-      subtitle: 'Pose estimation in mapped environments',
-      src: 'content/Localization.mp4',
     ),
     DemoVideo(
       title: 'Mapping',
@@ -77,7 +67,7 @@ class SiteContent {
     ),
   ];
 
-  /// Rasterized pages from `Nova Robot.pptx` (47 slides).
+  /// Rasterized talk slides (47 pages from the source deck).
   /// Skip intro pages; start at "Digital Twin: Robot Model" (slide 9).
   /// Also omit the final slide.
   static const slideFileCount = 47;
@@ -87,7 +77,7 @@ class SiteContent {
 
   static String slidePath(int index) {
     final n = (index + slideOffset + 1).toString().padLeft(2, '0');
-    final relative = 'slides/slide-$n.png';
+    final relative = 'slides/slide-$n.jpg';
     final base = Uri.base;
     final path = base.path.endsWith('/')
         ? base.path

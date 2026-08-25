@@ -43,11 +43,12 @@ jobs:
           cp -a web/content/. _site/content/
           rm -rf _site/slides
           mkdir -p _site/slides
-          cp -a assets/slides/. _site/slides/
+          cp -a assets/slides/*.jpg _site/slides/
           touch _site/.nojekyll
           echo "Staged:"
           du -sh _site _site/content _site/slides
-          ls -lh _site/content
+          ls -lh _site/content | head
+          ls _site/slides | wc -l
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

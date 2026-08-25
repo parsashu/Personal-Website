@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../data/site_content.dart';
 import '../theme.dart';
@@ -21,17 +20,6 @@ class HomePage extends StatelessWidget {
           const _PaperBackdrop(),
           CustomScrollView(
             slivers: [
-              SliverToBoxAdapter(
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: maxW),
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(pad, 28, pad, 0),
-                      child: const _TopNav(),
-                    ),
-                  ),
-                ),
-              ),
               SliverToBoxAdapter(
                 child: Center(
                   child: ConstrainedBox(
@@ -138,93 +126,9 @@ class _PaperBackdrop extends StatelessWidget {
                 ),
               ),
             ),
-            CustomPaint(painter: _GridPainter(), size: Size.infinite),
           ],
         ),
       ),
-    );
-  }
-}
-
-class _GridPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = const Color(0xFF15202B).withValues(alpha: 0.035)
-      ..strokeWidth = 1;
-    const step = 48.0;
-    for (double x = 0; x < size.width; x += step) {
-      canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
-    }
-    for (double y = 0; y < size.height; y += step) {
-      canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
-
-class _TopNav extends StatelessWidget {
-  const _TopNav();
-
-  @override
-  Widget build(BuildContext context) {
-    final style = Theme.of(context).textTheme.bodyMedium?.copyWith(
-          color: SiteColors.ink,
-          fontWeight: FontWeight.w600,
-        );
-
-    return Row(
-      children: [
-        Row(
-          children: [
-            ClipOval(
-              child: Image.asset(
-                SiteContent.portraitAsset,
-                width: 36,
-                height: 36,
-                fit: BoxFit.cover,
-                filterQuality: FilterQuality.medium,
-              ),
-            ),
-            const SizedBox(width: 12),
-            Text(
-              SiteContent.name,
-              style: GoogleFonts.libreBaskerville(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: SiteColors.ink,
-              ),
-            ),
-          ],
-        ),
-        const Spacer(),
-        TextButton(
-          onPressed: () {
-            final ctx = _demosKey.currentContext;
-            if (ctx == null) return;
-            Scrollable.ensureVisible(
-              ctx,
-              duration: const Duration(milliseconds: 450),
-              curve: Curves.easeOutCubic,
-            );
-          },
-          child: Text('Work', style: style),
-        ),
-        TextButton(
-          onPressed: () {
-            final ctx = _slidesKey.currentContext;
-            if (ctx == null) return;
-            Scrollable.ensureVisible(
-              ctx,
-              duration: const Duration(milliseconds: 450),
-              curve: Curves.easeOutCubic,
-            );
-          },
-          child: Text('Slides', style: style),
-        ),
-      ],
     );
   }
 }
@@ -520,7 +424,7 @@ class _SlidesSection extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Nova Robot deck — step through each page with the pointer.',
+            'Step through each page with the pointer.',
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           const SizedBox(height: 28),

@@ -78,7 +78,8 @@ class _AutoVideoState extends State<AutoVideo> {
     return VisibilityDetector(
       key: Key('video-${widget.src}'),
       onVisibilityChanged: (info) {
-        final nowVisible = info.visibleFraction > 0.15;
+        // Require more of the tile on screen before loading a video.
+        final nowVisible = info.visibleFraction > 0.45;
         if (nowVisible == _visible) return;
         _visible = nowVisible;
         if (nowVisible) {
