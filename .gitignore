@@ -46,6 +46,6 @@ app.*.map.json
 
 # Large local media (keep on disk, do not publish)
 /content/
-/web/content
 /assets/*.pdf
 /web/slides
+# Demo videos live in web/content/ (published). Root content/ stays local-only.

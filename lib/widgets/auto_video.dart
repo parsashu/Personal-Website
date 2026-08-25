@@ -26,7 +26,13 @@ class _AutoVideoState extends State<AutoVideo> {
 
   Uri get _uri {
     final encoded = widget.src.split('/').map(Uri.encodeComponent).join('/');
-    return Uri.base.resolve(encoded);
+    // Resolve against the site root path so GitHub Pages base-href works
+    // (e.g. https://user.github.io/Personal-Website/content/...).
+    final base = Uri.base;
+    final path = base.path.endsWith('/')
+        ? base.path
+        : base.path.substring(0, base.path.lastIndexOf('/') + 1);
+    return base.replace(path: '$path$encoded', query: '', fragment: '');
   }
 
   Future<void> _ensurePlaying() async {

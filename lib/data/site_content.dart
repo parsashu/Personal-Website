@@ -18,7 +18,7 @@ class SiteContent {
       'Research demos in SLAM, mapping, localization, and robot learning — '
       'shown as they run.';
 
-  /// Served from `web/content` (symlink to the project content folder).
+  /// Demo videos published under `web/content/` (root `content/` stays local-only).
   static const demos = <DemoVideo>[
     DemoVideo(
       title: 'Dynamic V-SLAM',
@@ -87,6 +87,11 @@ class SiteContent {
 
   static String slidePath(int index) {
     final n = (index + slideOffset + 1).toString().padLeft(2, '0');
-    return Uri.base.resolve('slides/slide-$n.png').toString();
+    final relative = 'slides/slide-$n.png';
+    final base = Uri.base;
+    final path = base.path.endsWith('/')
+        ? base.path
+        : base.path.substring(0, base.path.lastIndexOf('/') + 1);
+    return base.replace(path: '$path$relative', query: '', fragment: '').toString();
   }
 }
