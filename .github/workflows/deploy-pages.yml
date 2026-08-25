@@ -35,13 +35,16 @@ jobs:
         run: |
           mkdir -p _site
           cp -a build/web/. _site/
-          # Keep web/content demo videos from the Flutter web build
+          # Explicitly publish demo videos (do not rely on flutter web copy alone)
+          rm -rf _site/content
+          mkdir -p _site/content
+          cp -a web/content/. _site/content/
           rm -rf _site/slides
           mkdir -p _site/slides
           cp -a assets/slides/. _site/slides/
-          # Drop oversized leftovers if any slipped in via local symlink
-          find _site/content -type f \( -name '*.pptx' -o -name '*.pdf' \) -delete 2>/dev/null || true
-          du -sh _site _site/content _site/slides || true
+          echo "Site contents:"
+          du -sh _site _site/content _site/slides
+          ls -la _site/content | head -30
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
