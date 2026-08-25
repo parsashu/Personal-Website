@@ -177,13 +177,27 @@ class _TopNav extends StatelessWidget {
 
     return Row(
       children: [
-        Text(
-          SiteContent.name,
-          style: GoogleFonts.libreBaskerville(
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
-            color: SiteColors.ink,
-          ),
+        Row(
+          children: [
+            ClipOval(
+              child: Image.asset(
+                SiteContent.portraitAsset,
+                width: 36,
+                height: 36,
+                fit: BoxFit.cover,
+                filterQuality: FilterQuality.medium,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              SiteContent.name,
+              style: GoogleFonts.libreBaskerville(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: SiteColors.ink,
+              ),
+            ),
+          ],
         ),
         const Spacer(),
         TextButton(
@@ -253,100 +267,140 @@ class _HeroState extends State<_Hero> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final narrow = MediaQuery.sizeOf(context).width < 800;
+    final textBlock = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          SiteContent.name.toUpperCase(),
+          style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                fontSize: narrow ? 40 : 64,
+                letterSpacing: 1.0,
+                height: 1.05,
+              ),
+        ),
+        const SizedBox(height: 18),
+        Container(
+          width: 56,
+          height: 2,
+          color: SiteColors.accent,
+        ),
+        const SizedBox(height: 22),
+        Text(
+          SiteContent.title,
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: SiteColors.accent,
+                letterSpacing: 0.6,
+              ),
+        ),
+        const SizedBox(height: 16),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 520),
+          child: Text(
+            SiteContent.blurb,
+            style: Theme.of(context).textTheme.bodyLarge,
+          ),
+        ),
+        const SizedBox(height: 28),
+        Wrap(
+          spacing: 12,
+          runSpacing: 12,
+          children: [
+            FilledButton(
+              onPressed: () {
+                final ctx = _demosKey.currentContext;
+                if (ctx != null) {
+                  Scrollable.ensureVisible(
+                    ctx,
+                    duration: const Duration(milliseconds: 450),
+                    curve: Curves.easeOutCubic,
+                  );
+                }
+              },
+              style: FilledButton.styleFrom(
+                backgroundColor: SiteColors.ink,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 22,
+                  vertical: 16,
+                ),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.zero,
+                ),
+              ),
+              child: const Text('View demos'),
+            ),
+            OutlinedButton(
+              onPressed: () {
+                final ctx = _slidesKey.currentContext;
+                if (ctx != null) {
+                  Scrollable.ensureVisible(
+                    ctx,
+                    duration: const Duration(milliseconds: 450),
+                    curve: Curves.easeOutCubic,
+                  );
+                }
+              },
+              style: OutlinedButton.styleFrom(
+                foregroundColor: SiteColors.ink,
+                side: const BorderSide(color: SiteColors.ink),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 22,
+                  vertical: 16,
+                ),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.zero,
+                ),
+              ),
+              child: const Text('Open slides'),
+            ),
+          ],
+        ),
+      ],
+    );
+
+    final portrait = DecoratedBox(
+      decoration: BoxDecoration(
+        border: Border.all(color: SiteColors.line),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x14000000),
+            blurRadius: 28,
+            offset: Offset(0, 12),
+          ),
+        ],
+      ),
+      child: Image.asset(
+        SiteContent.portraitAsset,
+        width: narrow ? double.infinity : 280,
+        height: narrow ? 320 : 340,
+        fit: BoxFit.cover,
+        alignment: const Alignment(0, -0.15),
+        filterQuality: FilterQuality.high,
+        semanticLabel: SiteContent.name,
+      ),
+    );
 
     return FadeTransition(
       opacity: _fade,
       child: SlideTransition(
         position: _slide,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              SiteContent.name.toUpperCase(),
-              style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                    fontSize: narrow ? 48 : 72,
-                    letterSpacing: 1.2,
-                  ),
-            ),
-            const SizedBox(height: 18),
-            Container(
-              width: 56,
-              height: 2,
-              color: SiteColors.accent,
-            ),
-            const SizedBox(height: 22),
-            Text(
-              SiteContent.title,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: SiteColors.accent,
-                    letterSpacing: 0.6,
-                  ),
-            ),
-            const SizedBox(height: 16),
-            ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 560),
-              child: Text(
-                SiteContent.blurb,
-                style: Theme.of(context).textTheme.bodyLarge,
+        child: narrow
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  portrait,
+                  const SizedBox(height: 28),
+                  textBlock,
+                ],
+              )
+            : Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(child: textBlock),
+                  const SizedBox(width: 48),
+                  portrait,
+                ],
               ),
-            ),
-            const SizedBox(height: 28),
-            Wrap(
-              spacing: 12,
-              runSpacing: 12,
-              children: [
-                FilledButton(
-                  onPressed: () {
-                    final ctx = _demosKey.currentContext;
-                    if (ctx != null) {
-                      Scrollable.ensureVisible(
-                        ctx,
-                        duration: const Duration(milliseconds: 450),
-                        curve: Curves.easeOutCubic,
-                      );
-                    }
-                  },
-                  style: FilledButton.styleFrom(
-                    backgroundColor: SiteColors.ink,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 22,
-                      vertical: 16,
-                    ),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero,
-                    ),
-                  ),
-                  child: const Text('View demos'),
-                ),
-                OutlinedButton(
-                  onPressed: () {
-                    final ctx = _slidesKey.currentContext;
-                    if (ctx != null) {
-                      Scrollable.ensureVisible(
-                        ctx,
-                        duration: const Duration(milliseconds: 450),
-                        curve: Curves.easeOutCubic,
-                      );
-                    }
-                  },
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: SiteColors.ink,
-                    side: const BorderSide(color: SiteColors.ink),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 22,
-                      vertical: 16,
-                    ),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero,
-                    ),
-                  ),
-                  child: const Text('Open slides'),
-                ),
-              ],
-            ),
-          ],
-        ),
       ),
     );
   }

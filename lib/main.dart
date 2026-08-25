@@ -14,7 +14,7 @@ class PersonalSiteApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Parsa — Robotics',
+      title: 'Parsa Shahidi — Robotics',
       debugShowCheckedModeBanner: false,
       theme: buildSiteTheme(),
       home: const HomePage(),

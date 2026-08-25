@@ -11,7 +11,8 @@ class DemoVideo {
 }
 
 class SiteContent {
-  static const name = 'Parsa';
+  static const name = 'Parsa Shahidi';
+  static const portraitAsset = 'assets/images/portrait.jpg';
   static const title = 'Robotics · Perception · Autonomy';
   static const blurb =
       'Research demos in SLAM, mapping, localization, and robot learning — '
@@ -77,10 +78,15 @@ class SiteContent {
   ];
 
   /// Rasterized pages from `Nova Robot.pptx` (47 slides).
-  static const slideCount = 47;
+  /// Skip intro pages; start at "Digital Twin: Robot Model" (slide 9).
+  /// Also omit the final slide.
+  static const slideFileCount = 47;
+  static const slideOffset = 8;
+  static const slideEndTrim = 1;
+  static int get slideCount => slideFileCount - slideOffset - slideEndTrim;
 
   static String slidePath(int index) {
-    final n = (index + 1).toString().padLeft(2, '0');
+    final n = (index + slideOffset + 1).toString().padLeft(2, '0');
     return Uri.base.resolve('slides/slide-$n.png').toString();
   }
 }
