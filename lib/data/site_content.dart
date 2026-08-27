@@ -164,7 +164,6 @@ class SiteContent {
       note: '† Equal first authorship',
       figures: const [
         'assets/images/patbox/patbox-overview.png',
-        'assets/images/patbox/patbox-pipeline.png',
       ],
       githubUrl: 'https://github.com/parsashu/PATBox',
       abstractText:
@@ -253,6 +252,24 @@ class SiteContent {
       pdfUrl: 'content/thesis.pdf',
     ),
     Project(
+      title: 'Second bachelor project',
+      summary:
+          'Conducted as a research project with the Physics Department on '
+          'photoacoustic computed tomography (PACT), building simulation, '
+          'reconstruction, and benchmarking tools that later fed into the '
+          'PATBox publications.',
+      credit: 'Supervisor: Prof. Reza Rahimi Tabar',
+      highlights: const [
+        'Built k-Wave forward simulations for linear, square, and circular sensor geometries with controllable noise and grid settings.',
+        'Implemented and compared classical PACT reconstruction methods (DAS, CF-DAS, DMAS, DS-DMAS, UBP, time reversal, iterative variants, and related beamformers).',
+        'Developed quantitative evaluation and algorithm benchmarking (PSNR, SSIM, CNR, SBR, runtime, and related metrics) across acquisition setups.',
+        'Packaged the workflow as PATBox — a metadata-aware MATLAB toolbox for reproducible simulation, reconstruction, and method comparison.',
+        'Explored deep-learning reconstruction paths (signal- and image-domain U-Nets) alongside traditional beamforming baselines.',
+      ],
+      imageAsset: 'assets/images/patbox/patbox-pipeline.png',
+      githubUrl: 'https://github.com/parsashu/PAT',
+    ),
+    Project(
       title: 'Protein stability enhancement',
       summary:
           'An open-source tool and web app that uses machine learning to predict '
@@ -272,7 +289,7 @@ class SiteContent {
   /// Demo videos published under `web/content/` (root `content/` stays local-only).
   static const demos = <DemoVideo>[
     DemoVideo(
-      title: 'Interface',
+      title: 'Path optimizer',
       subtitle: 'Operator UI walkthrough',
       src: 'content/ui.webm',
     ),
