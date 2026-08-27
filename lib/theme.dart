@@ -12,8 +12,16 @@ class SiteColors {
 }
 
 ThemeData buildSiteTheme() {
-  final display = GoogleFonts.libreBaskervilleTextTheme();
-  final body = GoogleFonts.sourceSans3TextTheme();
+  TextTheme display;
+  TextTheme body;
+  try {
+    display = GoogleFonts.libreBaskervilleTextTheme();
+    body = GoogleFonts.sourceSans3TextTheme();
+  } catch (_) {
+    // Offline / font CDN failure — still paint the site.
+    display = ThemeData.light().textTheme;
+    body = ThemeData.light().textTheme;
+  }
 
   return ThemeData(
     useMaterial3: true,
