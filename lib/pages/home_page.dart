@@ -871,7 +871,10 @@ class _DemoTileState extends State<_DemoTile> {
                   border: Border.all(color: SiteColors.line),
                   color: SiteColors.paperDeep,
                 ),
-                child: AutoVideo(src: widget.demo.src),
+                child: AutoVideo(
+                  src: widget.demo.src,
+                  mobileSrc: widget.demo.mobileSrc,
+                ),
               ),
             ),
             const SizedBox(height: 10),

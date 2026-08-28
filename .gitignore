@@ -48,4 +48,7 @@ app.*.map.json
 /content/
 /assets/*.pdf
 /web/slides
+# Local tooling / generated media
+/tools/ffmpeg
+/web/content/optimized
 # Demo videos live in web/content/ (published). Root content/ stays local-only.
