@@ -414,7 +414,8 @@ class SiteContent {
     DemoVideo(
       title: 'Human detection',
       subtitle: 'Office environment in Gazebo',
-      imageAsset: 'assets/images/demos/human-detection.jpg',
+      src: 'content/optimized/human-detection.mp4',
+      mobileSrc: 'content/optimized/human-detection-mobile.mp4',
     ),
     DemoVideo(
       title: 'Autonomous navigation',
