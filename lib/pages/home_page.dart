@@ -452,8 +452,7 @@ class _PublicationItemState extends State<_PublicationItem> {
         pub.figures.length > 1 ? pub.figures.sublist(1) : const <String>[];
     final hasDetails = pub.abstractText != null ||
         dropdownFigures.isNotEmpty ||
-        pub.githubUrl != null ||
-        pub.note != null;
+        pub.githubUrl != null;
 
     Widget figureTile(String path) {
       return DecoratedBox(
@@ -519,6 +518,16 @@ class _PublicationItemState extends State<_PublicationItem> {
                           ),
                           const SizedBox(height: 8),
                           Text.rich(TextSpan(children: _authorSpans(body))),
+                          if (pub.note != null) ...[
+                            const SizedBox(height: 4),
+                            Text(
+                              pub.note!,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(color: SiteColors.inkSoft),
+                            ),
+                          ],
                           const SizedBox(height: 6),
                           Text(
                             pub.venue,
@@ -554,13 +563,6 @@ class _PublicationItemState extends State<_PublicationItem> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Divider(color: SiteColors.line, height: 1),
-                    if (pub.note != null) ...[
-                      const SizedBox(height: 12),
-                      Text(
-                        pub.note!,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    ],
                     if (pub.abstractText != null) ...[
                       const SizedBox(height: 14),
                       Text(
