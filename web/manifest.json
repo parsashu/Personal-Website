@@ -1,11 +1,11 @@
 {
-    "name": "personal_site",
-    "short_name": "personal_site",
+    "name": "Parsa Shahidi",
+    "short_name": "Parsa Shahidi",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Parsa Shahidi",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
