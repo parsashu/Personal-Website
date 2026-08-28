@@ -808,7 +808,7 @@ class _ProjectCard extends StatelessWidget {
                   color: SiteColors.paperDeep,
                 ),
                 child: AutoVideo(
-                  src: video.src,
+                  src: video.src!,
                   mobileSrc: video.mobileSrc,
                 ),
               ),
@@ -1026,10 +1026,16 @@ class _DemoTileState extends State<_DemoTile> {
                   border: Border.all(color: SiteColors.line),
                   color: SiteColors.paperDeep,
                 ),
-                child: AutoVideo(
-                  src: widget.demo.src,
-                  mobileSrc: widget.demo.mobileSrc,
-                ),
+                child: widget.demo.imageAsset != null
+                    ? Image.asset(
+                        widget.demo.imageAsset!,
+                        fit: BoxFit.cover,
+                        filterQuality: FilterQuality.medium,
+                      )
+                    : AutoVideo(
+                        src: widget.demo.src!,
+                        mobileSrc: widget.demo.mobileSrc,
+                      ),
               ),
             ),
             const SizedBox(height: 10),

@@ -40,8 +40,9 @@ class DemoVideo {
   const DemoVideo({
     required this.title,
     required this.subtitle,
-    required this.src,
+    this.src,
     this.mobileSrc,
+    this.imageAsset,
     this.galleryTile = false,
     this.galleryAspectRatio = 16 / 10,
     this.gallerySizeFactor = 1,
@@ -49,8 +50,9 @@ class DemoVideo {
 
   final String title;
   final String subtitle;
-  final String src;
+  final String? src;
   final String? mobileSrc;
+  final String? imageAsset;
   final bool galleryTile;
   final double galleryAspectRatio;
   final double gallerySizeFactor;
@@ -319,12 +321,13 @@ class SiteContent {
       galleryFigures: const [
         'assets/images/projects/comp-physics/julia-sets-2.jpg',
         'assets/images/projects/comp-physics/dla.png',
-        'assets/images/projects/comp-physics/ising-model.png',
-        'assets/images/projects/comp-physics/bifurcation-tree.png',
         'assets/images/projects/comp-physics/schelling-model.gif',
       ],
       githubUrl: 'https://github.com/parsashu/computational-physics',
     ),
+  ];
+
+  static const otherProjects = <Project>[
     Project(
       title: 'Percolation simulation',
       summary:
@@ -359,9 +362,6 @@ class SiteContent {
       imageAsset: 'assets/images/projects/particle-life.png',
       githubUrl: 'https://github.com/parsashu/Particle-life',
     ),
-  ];
-
-  static const otherProjects = <Project>[
     Project(
       title: 'Random walk & polymer',
       summary:
@@ -404,6 +404,17 @@ class SiteContent {
       subtitle: 'Operator UI walkthrough',
       src: 'content/optimized/ui.mp4',
       mobileSrc: 'content/optimized/ui-mobile.mp4',
+    ),
+    DemoVideo(
+      title: 'Room service robot simulation',
+      subtitle: 'Simulated in Gazebo',
+      src: 'content/optimized/room-service-robot.mp4',
+      mobileSrc: 'content/optimized/room-service-robot-mobile.mp4',
+    ),
+    DemoVideo(
+      title: 'Human detection',
+      subtitle: 'Office environment in Gazebo',
+      imageAsset: 'assets/images/demos/human-detection.jpg',
     ),
     DemoVideo(
       title: 'Autonomous navigation',
@@ -449,7 +460,7 @@ class SiteContent {
     ),
     DemoVideo(
       title: 'Robot Arm',
-      subtitle: 'Manipulator demo',
+      subtitle: 'Manipulator in Isaac Sim + MoveIt2 + LeRobot',
       src: 'content/optimized/arm.mp4',
       mobileSrc: 'content/optimized/arm-mobile.mp4',
     ),
