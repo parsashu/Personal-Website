@@ -3,7 +3,9 @@ class Project {
     required this.title,
     required this.summary,
     required this.highlights,
-    required this.imageAsset,
+    this.imageAsset,
+    this.galleryFigures = const [],
+    this.galleryVideos = const [],
     this.liveUrl,
     this.liveLabel = 'Website',
     this.githubUrl,
@@ -14,7 +16,9 @@ class Project {
   final String title;
   final String summary;
   final List<String> highlights;
-  final String imageAsset;
+  final String? imageAsset;
+  final List<String> galleryFigures;
+  final List<DemoVideo> galleryVideos;
   final String? liveUrl;
   final String liveLabel;
   final String? githubUrl;
@@ -38,12 +42,18 @@ class DemoVideo {
     required this.subtitle,
     required this.src,
     this.mobileSrc,
+    this.galleryTile = false,
+    this.galleryAspectRatio = 16 / 10,
+    this.gallerySizeFactor = 1,
   });
 
   final String title;
   final String subtitle;
   final String src;
   final String? mobileSrc;
+  final bool galleryTile;
+  final double galleryAspectRatio;
+  final double gallerySizeFactor;
 }
 
 class Publication {
@@ -116,7 +126,6 @@ class SiteContent {
     'Biophysics',
     'Complex systems',
     'Soft matter',
-    'Quantum computing',
     'Machine learning',
   ];
 
@@ -286,6 +295,105 @@ class SiteContent {
       githubUrl: 'https://github.com/parsashu/ML-on-Proteins',
       credit: 'Supervised by Dr. Sadegh Raeisi',
     ),
+    Project(
+      title: 'Simulation & computational physics',
+      summary:
+          'A collection of Python simulations developed for my Simulation and '
+          'Computational Physics course, covering fractals, statistical '
+          'mechanics, Monte Carlo methods, chaos theory, and agent-based models.',
+      credit: 'Instructor: Prof. Dr. Mohammad Reza Ejtehadi',
+      highlights: const [
+        'Fractals — Julia sets, Koch curves, Sierpinski triangles, dragon curves, and related self-similar generators.',
+        'Surface deposition — bottom-up, competitive, and lateral deposition growth models.',
+        'Percolation — site/bond percolation, Hoshen–Kopelman labeling, cluster growth, and finite-size scaling.',
+        'Random walks & DLA — 1D/2D random walks, self-avoiding walks, and diffusion-limited aggregation.',
+        'Random number generation — pseudorandom generators, Gaussian sampling, and central-limit-theorem validation.',
+        'Monte Carlo integration — high-dimensional sampling and variance-reduction estimators.',
+        'Ising model — Metropolis Monte Carlo simulation of spin lattices and magnetic domain formation.',
+        'ODE solvers — numerical integration for RC-circuit dynamics.',
+        'Chaos & bifurcations — algorithmic instability, driven oscillators, and the logistic-map route to chaos.',
+        'Molecular dynamics — Lennard–Jones particle simulations.',
+        'Schelling segregation — agent-based model of emergent spatial segregation.',
+      ],
+      imageAsset: 'assets/images/projects/comp-physics/julia-sets.jpg',
+      galleryFigures: const [
+        'assets/images/projects/comp-physics/julia-sets-2.jpg',
+        'assets/images/projects/comp-physics/dla.png',
+        'assets/images/projects/comp-physics/ising-model.png',
+        'assets/images/projects/comp-physics/bifurcation-tree.png',
+        'assets/images/projects/comp-physics/schelling-model.gif',
+      ],
+      githubUrl: 'https://github.com/parsashu/computational-physics',
+    ),
+    Project(
+      title: 'Percolation simulation',
+      summary:
+          'Course project for Complex Systems: site percolation on 2D lattices '
+          'with cluster identification, spanning-cluster detection, and '
+          'visualization near the percolation threshold.',
+      credit: 'Instructor: Prof. Dr. Shahin Rouhani',
+      highlights: const [
+        'Coloring algorithm — labels connected occupied neighbors by recursively assigning the same cluster color across the lattice.',
+        'Hoshen–Kopelman algorithm — union-find cluster labeling that efficiently identifies connected components and checks for percolation.',
+        'Compared both methods for cluster detection on lattices up to 1000×1000 near p_c ≈ 0.59.',
+        'Visualized percolating clusters and studied how spanning paths emerge at the critical occupancy probability.',
+      ],
+      imageAsset: 'assets/images/projects/percolation-clusters.png',
+      githubUrl:
+          'https://github.com/parsashu/Percolation-Sim---Complex-System-Course-',
+    ),
+    Project(
+      title: 'Particle life',
+      summary:
+          'Course project for Biophysics: a particle-life simulation where '
+          'complex collective behavior emerges from simple pairwise forces and '
+          'interactions between particle types.',
+      credit: 'Instructor: Prof. Dr. Nader Reihani',
+      highlights: const [
+        'Four particle species interact through a tunable attraction–repulsion force matrix.',
+        'Spatial partitioning accelerates pairwise force updates for hundreds of particles in real time.',
+        'Short-range repulsion and friction stabilize motion while preserving emergent structure.',
+        'Self-organizing clusters, orbits, and filaments arise from local rules alone.',
+        'Interactive Pygame visualization of particles and the live force matrix.',
+      ],
+      imageAsset: 'assets/images/projects/particle-life.png',
+      githubUrl: 'https://github.com/parsashu/Particle-life',
+    ),
+  ];
+
+  static const otherProjects = <Project>[
+    Project(
+      title: 'Random walk & polymer',
+      summary:
+          'Biophysics course project simulating polymer chains with the '
+          'freely jointed chain (FJC) model — from 3D random walks to '
+          'end-to-end statistics and force–extension behavior.',
+      credit: 'Instructor: Prof. Dr. Nader Reihani',
+      highlights: const [
+        'Implemented 1D and 3D random-walk simulations and analyzed mean-squared displacement.',
+        'Modeled polymers as freely jointed chains with randomly oriented rigid segments.',
+        'Computed end-to-end distance distributions and compared results to theory.',
+        'Visualized polymer conformations in 3D and studied how chain length affects reach.',
+        'Simulated force–extension response with directional bias and compared grid vs. free-joint forms.',
+      ],
+      imageAsset: 'assets/images/projects/random-walk-polymer.png',
+      githubUrl: 'https://github.com/parsashu/RandomWalk-and-Polymer',
+    ),
+    Project(
+      title: 'Oscillating dipoles',
+      summary:
+          'Electromagnetism II course project numerically computing radiation '
+          'from oscillating electric dipoles and comparing exact retarded-potential '
+          'results with Griffiths’ approximate far-field theory.',
+      credit: 'Instructor: Prof. Dr. Shant Baghram',
+      highlights: const [
+        'Simulated charge-oscillating and length-oscillating dipole models.',
+        'Built retarded scalar and vector potentials with fixed-point iteration for moving charges.',
+        'Computed Poynting-vector intensity and compared with Griffiths §11.1.2 predictions.',
+        'Verified far-field scaling (I ∝ r⁻²) and angular sin²θ dependence numerically.',
+      ],
+      githubUrl: 'https://github.com/parsashu/Oscillating-Dipoles',
+    ),
   ];
 
   /// Demo videos published under `web/content/optimized/` (generated by
@@ -352,10 +460,10 @@ class SiteContent {
       mobileSrc: 'content/optimized/lidar-slam-fast-mobile.mp4',
     ),
     DemoVideo(
-      title: 'Molecular dynamics',
-      subtitle: 'Particle simulation',
-      src: 'content/optimized/md.mp4',
-      mobileSrc: 'content/optimized/md-mobile.mp4',
+      title: 'Particle life',
+      subtitle: 'Emergent behavior from simple interactions',
+      src: 'content/optimized/introduction.mp4',
+      mobileSrc: 'content/optimized/introduction-mobile.mp4',
     ),
   ];
 

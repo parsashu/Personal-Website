@@ -88,6 +88,17 @@ class HomePage extends StatelessWidget {
                   child: ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: maxW),
                     child: Padding(
+                      padding: EdgeInsets.fromLTRB(pad, 0, pad, 96),
+                      child: const _OtherProjectsSection(),
+                    ),
+                  ),
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: maxW),
+                    child: Padding(
                       padding: EdgeInsets.fromLTRB(pad, 0, pad, 48),
                       child: const _Footer(),
                     ),
@@ -642,6 +653,28 @@ class _ProjectsSection extends StatelessWidget {
   }
 }
 
+class _OtherProjectsSection extends StatelessWidget {
+  const _OtherProjectsSection();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Other projects',
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+        const SizedBox(height: 28),
+        for (var i = 0; i < SiteContent.otherProjects.length; i++) ...[
+          if (i > 0) const SizedBox(height: 24),
+          _ProjectCard(project: SiteContent.otherProjects[i]),
+        ],
+      ],
+    );
+  }
+}
+
 class _ProjectCard extends StatelessWidget {
   const _ProjectCard({required this.project});
 
@@ -652,20 +685,23 @@ class _ProjectCard extends StatelessWidget {
     final narrow = MediaQuery.sizeOf(context).width < 800;
     final body = Theme.of(context).textTheme.bodyLarge;
 
-    final image = ClipRRect(
-      borderRadius: BorderRadius.circular(8),
-      child: AspectRatio(
-        aspectRatio: 4 / 3,
-        child: ColoredBox(
-          color: const Color(0xFFF7F9FB),
-          child: Image.asset(
-            project.imageAsset,
-            fit: BoxFit.contain,
-            filterQuality: FilterQuality.high,
-          ),
-        ),
-      ),
-    );
+    final hasImage = project.imageAsset != null;
+    final image = hasImage
+        ? ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: AspectRatio(
+              aspectRatio: 4 / 3,
+              child: ColoredBox(
+                color: const Color(0xFFF7F9FB),
+                child: Image.asset(
+                  project.imageAsset!,
+                  fit: BoxFit.contain,
+                  filterQuality: FilterQuality.high,
+                ),
+              ),
+            ),
+          )
+        : null;
 
     final text = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -758,6 +794,115 @@ class _ProjectCard extends StatelessWidget {
       ],
     );
 
+    Widget galleryVideoTile(DemoVideo video, double width, {bool showLabels = false}) {
+      return SizedBox(
+        width: width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AspectRatio(
+              aspectRatio: video.galleryAspectRatio,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  border: Border.all(color: SiteColors.line),
+                  color: SiteColors.paperDeep,
+                ),
+                child: AutoVideo(
+                  src: video.src,
+                  mobileSrc: video.mobileSrc,
+                ),
+              ),
+            ),
+            if (showLabels) ...[
+              const SizedBox(height: 6),
+              Text(
+                video.title,
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              if (video.subtitle.isNotEmpty)
+                Text(
+                  video.subtitle,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+            ],
+          ],
+        ),
+      );
+    }
+
+    Widget gallery() {
+      if (project.galleryFigures.isEmpty && project.galleryVideos.isEmpty) {
+        return const SizedBox.shrink();
+      }
+
+      final tileVideos =
+          project.galleryVideos.where((v) => v.galleryTile).toList();
+      final fullVideos =
+          project.galleryVideos.where((v) => !v.galleryTile).toList();
+
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          final cols = constraints.maxWidth < 520 ? 2 : 3;
+          const gap = 10.0;
+          final tileW = (constraints.maxWidth - gap * (cols - 1)) / cols;
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 18),
+              Text(
+                'Outputs',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: SiteColors.accent,
+                      letterSpacing: 0.3,
+                    ),
+              ),
+              const SizedBox(height: 10),
+              if (project.galleryFigures.isNotEmpty || tileVideos.isNotEmpty)
+                Wrap(
+                  spacing: gap,
+                  runSpacing: gap,
+                  children: [
+                    for (final path in project.galleryFigures)
+                      SizedBox(
+                        width: tileW,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: SiteColors.line),
+                            color: const Color(0xFFF7F9FB),
+                          ),
+                          child: Image.asset(
+                            path,
+                            fit: BoxFit.contain,
+                            filterQuality: FilterQuality.medium,
+                          ),
+                        ),
+                      ),
+                    for (final video in tileVideos)
+                      galleryVideoTile(
+                        video,
+                        tileW * video.gallerySizeFactor,
+                      ),
+                  ],
+                ),
+              for (final video in fullVideos) ...[
+                if (project.galleryFigures.isNotEmpty || tileVideos.isNotEmpty)
+                  const SizedBox(height: gap),
+                SizedBox(
+                  width: constraints.maxWidth,
+                  child: galleryVideoTile(
+                    video,
+                    constraints.maxWidth,
+                    showLabels: true,
+                  ),
+                ),
+              ],
+            ],
+          );
+        },
+      );
+    }
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: DecoratedBox(
@@ -775,23 +920,33 @@ class _ProjectCard extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.all(20),
-          child: narrow
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    image,
-                    const SizedBox(height: 18),
-                    text,
-                  ],
-                )
-              : Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(width: 280, child: image),
-                    const SizedBox(width: 28),
-                    Expanded(child: text),
-                  ],
-                ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              narrow
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        if (hasImage) ...[
+                          image!,
+                          const SizedBox(height: 18),
+                        ],
+                        text,
+                      ],
+                    )
+                  : hasImage
+                      ? Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(width: 280, child: image),
+                            const SizedBox(width: 28),
+                            Expanded(child: text),
+                          ],
+                        )
+                      : text,
+              gallery(),
+            ],
+          ),
         ),
       ),
     );
