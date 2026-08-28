@@ -63,13 +63,20 @@ class _AutoVideoState extends State<AutoVideo> {
     }
   }
 
-  Future<void> _teardown() async {
+  Future<void> _pause() async {
     final controller = _controller;
-    _controller = null;
-    if (controller != null) {
-      await controller.dispose();
-      if (mounted) setState(() {});
+    if (controller != null && controller.value.isInitialized) {
+      await controller.pause();
     }
+  }
+
+  Future<void> _resume() async {
+    final controller = _controller;
+    if (controller != null && controller.value.isInitialized) {
+      await controller.play();
+      return;
+    }
+    await _ensurePlaying();
   }
 
   @override
@@ -87,9 +94,9 @@ class _AutoVideoState extends State<AutoVideo> {
         if (nowVisible == _visible) return;
         _visible = nowVisible;
         if (nowVisible) {
-          _ensurePlaying();
+          _resume();
         } else {
-          _teardown();
+          _pause();
         }
       },
       child: _buildSurface(),

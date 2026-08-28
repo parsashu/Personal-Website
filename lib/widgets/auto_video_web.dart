@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 /// Web-native muted autoplay video that streams progressively.
-/// The `src` is attached only while the tile is on screen.
+/// Playback pauses off-screen and resumes where it left off.
 class AutoVideo extends StatefulWidget {
   const AutoVideo({
     super.key,
@@ -43,8 +43,14 @@ class _AutoVideoState extends State<AutoVideo> {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.src != widget.src ||
         oldWidget.mobileSrc != widget.mobileSrc) {
+      final video = _video;
+      if (video != null) {
+        video.pause();
+        video.removeAttribute('src');
+        video.load();
+        if (mounted) setState(() => _ready = false);
+      }
       if (_visible) {
-        _detach();
         _attach();
       }
     }
@@ -112,18 +118,30 @@ class _AutoVideoState extends State<AutoVideo> {
     video.play().catchError((_) {});
   }
 
-  void _detach() {
+  void _pause() {
+    _video?.pause();
+  }
+
+  void _resume() {
     final video = _video;
-    if (video == null) return;
-    video.pause();
-    video.removeAttribute('src');
-    video.load();
-    if (mounted) setState(() => _ready = false);
+    if (video == null || _failed) return;
+
+    final src = video.getAttribute('src');
+    if (src == null || src.isEmpty) {
+      _attach();
+      return;
+    }
+    video.play().catchError((_) {});
   }
 
   @override
   void dispose() {
-    _detach();
+    final video = _video;
+    if (video != null) {
+      video.pause();
+      video.removeAttribute('src');
+      video.load();
+    }
     super.dispose();
   }
 
@@ -136,9 +154,9 @@ class _AutoVideoState extends State<AutoVideo> {
         if (nowVisible == _visible) return;
         _visible = nowVisible;
         if (nowVisible) {
-          _attach();
+          _resume();
         } else {
-          _detach();
+          _pause();
         }
       },
       child: ClipRRect(
