@@ -26,10 +26,17 @@ So "deploy" = verify, commit, push, then confirm the workflow run succeeded.
 
 3. **Push**: `git push origin main`.
 
-4. **Confirm the deploy**
-   - Find the run: `gh run list --workflow deploy-pages.yml --limit 1`
-   - Wait for it (run in the background): `gh run watch <run-id> --exit-status`
-   - On failure, read `gh run view <run-id> --log-failed`, fix, and redeploy.
+4. **Confirm the deploy** (`gh` is not installed; use the public API, and
+   retry on timeouts — the connection to api.github.com is flaky here)
+   - Latest run for the pushed commit:
+     `curl -sS -m 25 "https://api.github.com/repos/parsashu/Personal-Website/actions/runs?per_page=1"`
+     → check `head_sha`, `status`, `conclusion`, `html_url`.
+   - Poll in a background loop (about every 30s) until `status` is
+     `completed`; a deploy normally takes a few minutes.
+   - On failure, open the run's `html_url` (or its `jobs_url`) to find the
+     failing step, fix it, and push again.
+   - Pushing again while a run is in progress is fine: the workflow cancels
+     the older run and deploys the newest commit.
 
 5. **Report** the commit(s), the run result, and the live URL
    https://parsashu.github.io/Personal-Website/ (a hard refresh may be needed
