@@ -4,6 +4,8 @@ import 'dart:ui_web' as ui_web;
 import 'package:flutter/material.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import 'skeleton.dart';
+
 /// Web-native muted autoplay video that streams progressively.
 /// Playback pauses off-screen and resumes where it left off.
 class AutoVideo extends StatefulWidget {
@@ -175,17 +177,7 @@ class _AutoVideoState extends State<AutoVideo> {
                 fit: StackFit.expand,
                 children: [
                   HtmlElementView(viewType: _viewType),
-                  if (!_ready)
-                    const ColoredBox(
-                      color: Color(0xFFE8EDF2),
-                      child: Center(
-                        child: SizedBox(
-                          width: 22,
-                          height: 22,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        ),
-                      ),
-                    ),
+                  if (!_ready) const Skeleton(),
                 ],
               ),
       ),

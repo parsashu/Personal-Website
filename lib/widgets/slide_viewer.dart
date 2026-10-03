@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../data/site_content.dart';
 import '../theme.dart';
+import 'skeleton.dart';
 
 /// Page-by-page viewer for a rasterized talk deck.
 class SlideViewer extends StatefulWidget {
@@ -123,18 +124,7 @@ class _SlideViewerState extends State<SlideViewer> {
                           gaplessPlayback: true,
                           loadingBuilder: (context, child, progress) {
                             if (progress == null) return child;
-                            return const ColoredBox(
-                              color: Colors.white,
-                              child: Center(
-                                child: SizedBox(
-                                  width: 18,
-                                  height: 18,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                  ),
-                                ),
-                              ),
-                            );
+                            return const Skeleton();
                           },
                           errorBuilder: (context, error, stackTrace) =>
                               const Center(child: Text('Slide unavailable')),

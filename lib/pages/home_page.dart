@@ -5,6 +5,7 @@ import '../theme.dart';
 import '../utils/open_url.dart';
 import '../widgets/auto_video.dart';
 import '../widgets/contact_links.dart';
+import '../widgets/skeleton.dart';
 import '../widgets/slide_viewer.dart';
 
 class HomePage extends StatelessWidget {
@@ -306,7 +307,7 @@ class _HeroState extends State<_Hero> with SingleTickerProviderStateMixin {
           ),
         ],
       ),
-      child: Image.asset(
+      child: SkeletonImage(
         SiteContent.portraitAsset,
         width: narrow ? double.infinity : 280,
         height: narrow ? 320 : 340,
@@ -444,7 +445,7 @@ class _PublicationItemState extends State<_PublicationItem> {
           border: Border.all(color: SiteColors.line),
           color: Colors.white,
         ),
-        child: Image.asset(
+        child: SkeletonImage(
           path,
           fit: BoxFit.contain,
           width: double.infinity,
@@ -679,7 +680,7 @@ class _ProjectCard extends StatelessWidget {
               aspectRatio: 4 / 3,
               child: ColoredBox(
                 color: const Color(0xFFF7F9FB),
-                child: Image.asset(
+                child: SkeletonImage(
                   project.imageAsset!,
                   fit: BoxFit.contain,
                   filterQuality: FilterQuality.high,
@@ -857,7 +858,7 @@ class _ProjectCard extends StatelessWidget {
                             border: Border.all(color: SiteColors.line),
                             color: const Color(0xFFF7F9FB),
                           ),
-                          child: Image.asset(
+                          child: SkeletonImage(
                             path,
                             fit: BoxFit.contain,
                             filterQuality: FilterQuality.medium,
@@ -1013,7 +1014,7 @@ class _DemoTileState extends State<_DemoTile> {
                   color: SiteColors.paperDeep,
                 ),
                 child: widget.demo.imageAsset != null
-                    ? Image.asset(
+                    ? SkeletonImage(
                         widget.demo.imageAsset!,
                         fit: BoxFit.cover,
                         filterQuality: FilterQuality.medium,

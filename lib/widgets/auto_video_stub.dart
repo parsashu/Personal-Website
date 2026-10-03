@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import 'skeleton.dart';
+
 /// Non-web fallback using video_player.
 class AutoVideo extends StatefulWidget {
   const AutoVideo({
@@ -114,16 +116,7 @@ class _AutoVideoState extends State<AutoVideo> {
       );
     }
     if (controller == null || !controller.value.isInitialized) {
-      return const ColoredBox(
-        color: Color(0xFFE8EDF2),
-        child: Center(
-          child: SizedBox(
-            width: 22,
-            height: 22,
-            child: CircularProgressIndicator(strokeWidth: 2),
-          ),
-        ),
-      );
+      return const Skeleton();
     }
 
     return ClipRRect(

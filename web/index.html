@@ -5,6 +5,7 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Parsa Shahidi">
 
   <meta name="mobile-web-app-capable" content="yes">
@@ -22,9 +23,105 @@
       height: 100%;
       background: #F4F6F8;
     }
+
+    /* Page skeleton shown until Flutter paints its first frame. */
+    #boot-skeleton {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      background: linear-gradient(135deg, #F7F9FB, #EEF3F6 50%, #E6EEF1);
+    }
+    #boot-skeleton .wrap {
+      box-sizing: border-box;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 56px 72px 0;
+    }
+    #boot-skeleton .sk {
+      border-radius: 4px;
+      background: linear-gradient(100deg, #DAE2E8 35%, #EDF2F5 50%, #DAE2E8 65%);
+      background-size: 200% 100%;
+      background-attachment: fixed;
+      animation: sk-shimmer 1.4s linear infinite;
+    }
+    @keyframes sk-shimmer {
+      from { background-position: 150% 0; }
+      to { background-position: -50% 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #boot-skeleton .sk { animation: none; }
+    }
+    #boot-skeleton .hero {
+      display: flex;
+      gap: 48px;
+      align-items: flex-start;
+    }
+    #boot-skeleton .portrait { width: 280px; height: 340px; flex: none; }
+    #boot-skeleton .hero-text { flex: 1; padding-top: 8px; }
+    #boot-skeleton .name { width: 70%; height: 56px; }
+    #boot-skeleton .rule { width: 56px; height: 2px; margin: 22px 0 28px; background: #245B6B; opacity: .5; }
+    #boot-skeleton .buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+    #boot-skeleton .btn { width: 132px; height: 50px; border-radius: 0; }
+    #boot-skeleton .section { margin-top: 72px; }
+    #boot-skeleton .heading { width: 220px; height: 30px; margin-bottom: 20px; }
+    #boot-skeleton .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    #boot-skeleton .thumb { aspect-ratio: 16 / 10; border-radius: 2px; }
+    #boot-skeleton .line { height: 16px; margin-top: 12px; width: 65%; }
+    #boot-skeleton .line.short { height: 13px; margin-top: 8px; width: 40%; }
+
+    @media (max-width: 1099px) {
+      #boot-skeleton .wrap { padding: 56px 40px 0; }
+    }
+    @media (max-width: 799px) {
+      #boot-skeleton .hero { flex-direction: column; gap: 28px; }
+      #boot-skeleton .portrait { width: 100%; height: 320px; }
+      #boot-skeleton .name { width: 85%; height: 40px; }
+    }
+    @media (max-width: 719px) {
+      #boot-skeleton .wrap { padding: 56px 20px 0; }
+    }
+    @media (max-width: 639px) {
+      #boot-skeleton .grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
+  <div id="boot-skeleton" aria-busy="true" aria-label="Loading">
+    <div class="wrap">
+      <div class="hero">
+        <div class="sk portrait"></div>
+        <div class="hero-text">
+          <div class="sk name"></div>
+          <div class="rule"></div>
+          <div class="buttons">
+            <div class="sk btn"></div>
+            <div class="sk btn"></div>
+            <div class="sk btn"></div>
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="sk heading"></div>
+        <div class="grid">
+          <div><div class="sk thumb"></div><div class="sk line"></div><div class="sk line short"></div></div>
+          <div><div class="sk thumb"></div><div class="sk line"></div><div class="sk line short"></div></div>
+          <div><div class="sk thumb"></div><div class="sk line"></div><div class="sk line short"></div></div>
+          <div><div class="sk thumb"></div><div class="sk line"></div><div class="sk line short"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // The Flutter view paints over the skeleton; drop it once the first frame is up.
+    window.addEventListener('flutter-first-frame', function () {
+      var el = document.getElementById('boot-skeleton');
+      if (el) el.remove();
+    }, { once: true });
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
