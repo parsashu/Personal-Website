@@ -240,22 +240,6 @@ class _HeroState extends State<_Hero> with SingleTickerProviderStateMixin {
           height: 2,
           color: SiteColors.accent,
         ),
-        const SizedBox(height: 22),
-        Text(
-          'Research interests',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: SiteColors.accent,
-                letterSpacing: 0.4,
-              ),
-        ),
-        const SizedBox(height: 10),
-        ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 520),
-          child: Text(
-            SiteContent.researchInterests.join(', '),
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-        ),
         const SizedBox(height: 28),
         Wrap(
           spacing: 12,

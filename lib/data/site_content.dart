@@ -115,22 +115,6 @@ class TalkDeck {
 class SiteContent {
   static const name = 'Parsa Shahidi';
   static const portraitAsset = 'assets/images/portrait.jpg';
-  static const researchInterests = <String>[
-    'Robot perception & SLAM',
-    'Autonomous navigation',
-    'Digital twin',
-    'Photoacoustic imaging',
-    'Mobile edge computing, DRL & PPO',
-    'Real-time systems',
-    'Embedded systems',
-    'IoT',
-    'Computational physics & simulation',
-    'Biophysics',
-    'Complex systems',
-    'Soft matter',
-    'Machine learning',
-  ];
-
   static const publications = <Publication>[
     Publication(
       title:
